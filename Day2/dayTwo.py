@@ -2,31 +2,7 @@
 
 import sys
 
-def workOnList(lst):
-    maxNum = 0
-    totalSum = 0
-    lstRes = []
-
-
-    for i in lst:
-
-        if len(i) == 0:
-            print(f'tetal {totalSum} et maxNum actuel est : {maxNum}')
-            #data = input ("suivant ?\n")
-            lstRes.append(totalSum)
-            if totalSum > maxNum:
-                maxNum = totalSum
-                totalSum = 0
-            else:
-                totalSum = 0
-        else:
-            totalSum += int(i)
-
-    print(f'le maxNumimum est : {maxNum} ..')
-    lstRes.sort()
-    lstRes.reverse()
-    print(f'lezs trois premier sont : {lstRes[0]} {lstRes[1]} {lstRes[2]}')
-
+#pour la premiere partie
 # A = X(1) -> Rock
 # B = Y(2) -> paper
 # C = Z(3) -> siceaux 
@@ -35,6 +11,7 @@ def workOnList(lst):
 # 3 egalité
 # 6 victoire
 
+# not very nice code here
 def calcScore(other, me):
     if other == 'A':
         if me == 'X':
@@ -58,19 +35,43 @@ def calcScore(other, me):
         elif me == 'Z':
             return 3
 
+# but better here 
+
+#first part
 dic = {'X': 1, 'Y': 2, 'Z': 3}
 def shapeScore(me):
     return dic[me]
 
-def day_two(lst):
+#for the second part
+# X(1) -> need to lose
+# Y(2) -> need to draw 
+# Z(3) -> need to win 
+
+dicToWin = {
+    'X': {'A': 'Z', 'B': 'X', 'C': 'Y'},
+    'Y': {'A': 'X', 'B': 'Y', 'C': 'Z'},
+    'Z': {'A': 'Y', 'B': 'Z', 'C': 'X'},
+}
+
+def whatToPlay(other, me):
+    return dicToWin[me][other]
+
+def day_two(lst, part):
     aPlay = []
     score = 0
     for i in lst:
         aPlay = i.split(' ')
         print(aPlay)
-        playScore = calcScore(aPlay[0], aPlay[1]) + shapeScore(aPlay[1])
+        playScore = 0
+        if part == 1:
+            playScore = calcScore(aPlay[0], aPlay[1]) + shapeScore(aPlay[1])
+        elif part == 2:
+            whatToPlayToken = whatToPlay(aPlay[0], aPlay[1])
+            playScore  = calcScore(aPlay[0], whatToPlayToken) + shapeScore(whatToPlayToken)
+        else :
+            Exception()
         score += playScore
-        data = input (f"jeu : lui  {aPlay[0]} moi {aPlay[1]} total {playScore} partie total {score} \n")
+        #data = input (f"jeu : lui  {aPlay[0]} code secret {aPlay[1]} ce que je joue : {whatToPlayToken} total {playScore} partie total {score} \n")
         aPlay.clear()
     
     print(f"jeu : score total {score} \n")
@@ -84,7 +85,7 @@ def main(av):
     input = fd.read()
     lst = input.split('\n')
 
-    day_two(lst)
+    day_two(lst, 2)
 
     fd.close()
     
