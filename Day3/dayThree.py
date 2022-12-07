@@ -72,6 +72,88 @@ def day_three(lst):
         print(f"first :  {first} \nsecond : {second} charactere a trouver : {charToFind} value : {encode_dic[charToFind]} ")
         #data = input (f"continué ? taille : {len(i)}\n")
     print(f"resultats {score}")
+
+def compare_two_backpack(first, second):
+    charToFind = []
+
+    for j in first:
+        if second.find(j) >= 0:
+            charToFind.append(j)
+    return charToFind
+
+def compare_two_list(first, second):
+    charToFind = []
+    for j in first:
+        try :
+            temp = second.index(j)
+            charToFind.append(j)
+        except:
+            pass
+    return charToFind
+
+def reduce_list(lst):
+    reduced = []
+    for i in lst:
+        if reduced == []:
+            reduced.append(i)
+        else :
+            try: 
+                reduced.index(i)
+            except:
+                print("IL Y A UN E ERREUR dans les données ")
+                break
+
+    return reduced
+
+
+def day_three_part_two(lst):
+    one = []
+    two = []
+    three = []
+    charsToFindList = []
+    score = 0
+    for i in lst:
+        if one == [] or two == [] or three == []:
+            print("l'un des trois est vide")
+            if one == []:
+                one = i
+            elif two == []:
+                two = i
+            else :
+                three = i
+        else : 
+            print("les trois sont plein ")
+            print(f"un : {one} deux {two} trois {three}")
+            firstChar = compare_two_backpack(one, two)
+            secondChar = compare_two_backpack(one, three)
+            compareAll = compare_two_list(firstChar, secondChar)
+            reduced = reduce_list(compareAll)
+            if len(reduced) > 1:
+                raise Exception("Erreur avec les données")
+            charsToFindList.append(reduced[0])
+            #data = input (f"premier char : {firstChar}--{secondChar}--{compareAll}--{reduced}--{charsToFindList}\n")
+            reduced = []
+            one = i
+            two = []
+            three = []
+
+    print("dernier tours")
+    print(f"un : {one} deux {two} trois {three}")
+    firstChar = compare_two_backpack(one, two)
+    secondChar = compare_two_backpack(one, three)
+    compareAll = compare_two_list(firstChar, secondChar)
+    reduced = reduce_list(compareAll)
+    data = input (f"premier char : {firstChar}--{secondChar}--{compareAll}--{reduced}-")
+    if len(reduced) > 1:
+        raise Exception("Erreur avec les données")
+    charsToFindList.append(reduced[0])
+    data = input (f"premier char : {firstChar}--{secondChar}--{compareAll}--{reduced}\n")
+    for k in charsToFindList:
+        score += encode_dic[k]
+
+    print(score)
+
+
 def main(av):
     print("hello")
     if len(av) >= 2:
@@ -81,8 +163,10 @@ def main(av):
     input = fd.read()
     lst = input.split('\n')
 
-    day_three(lst)
-
+    #day_three(lst)
+    day_three_part_two(lst)
+    
+    
     fd.close()
 
 if __name__ == '__main__':
