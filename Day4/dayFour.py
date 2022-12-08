@@ -153,6 +153,37 @@ def day_three_part_two(lst):
 
     print(score)
 
+def wich_minimal(a, b):
+    return a < b
+
+def wich_bigger(a, b):
+    return a < b
+
+def day_four(lst):
+    first_grp = []
+    second_grp = []
+    score = 0
+    for i in lst:
+        print(i)
+        first_grp = i.split(',')[0]
+        second_grp = i.split(',')[1]
+        print(first_grp)
+        print(second_grp)
+        firstTab = first_grp.split('-')
+        secondTab = second_grp.split('-')
+        resTab = []
+        print(firstTab)
+        print(secondTab)
+        resTab.append(int(firstTab[0]) <= int(secondTab[0]))
+        resTab.append(int(firstTab[1]) >= int(secondTab[1]))
+
+        print(resTab)
+        if resTab[0] == resTab[1]:
+            print("on augmente le score")
+            score += 1
+        
+    print(f"le score est de {score}")
+        
 
 def main(av):
     print("hello")
@@ -164,8 +195,8 @@ def main(av):
     lst = input.split('\n')
 
     #day_three(lst)
-    day_three_part_two(lst)
-    
+    #day_three_part_two(lst)
+    day_four(lst)
     
     fd.close()
 
